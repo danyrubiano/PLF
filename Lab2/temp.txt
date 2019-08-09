@@ -1,0 +1,720 @@
+// d/d/dddd
+// d/d/ ddd
+// d/d /dddd
+// d/d / dddd
+// d/ d/dddd
+// d/ d/ dddd
+// d/ d /dddd
+// d/ d / dddd
+// d /d/dddd
+// d /d/ dddd
+// d /d /dddd
+// d /d / dddd
+// d / d/dddd
+// d / d/ dddd
+// d / d /dddd
+// d / d / dddd
+
+// d/d/dd
+// d/d/ dd
+// d/d /dd
+// d/d / dd
+// d/ d/dd
+// d/ d/ dd
+// d/ d /dd
+// d/ d / dd
+// d /d/dd
+// d /d/ dd
+// d /d /dd
+// d /d / dd
+// d / d/dd
+// d / d/ dd
+// d / d /dd
+// d / d / dd
+
+// d/d
+// d/ d
+// d /d
+// d / d
+
+/////////////////////////////////////////
+
+// d/dd/dddd
+// d/dd/ dddd
+// d/dd /dddd
+// d/dd / dddd
+// d/ dd/dddd
+// d/ dd/ dddd
+// d/ dd /dddd
+// d/ dd / dddd
+// d /dd/dddd
+// d /dd/ dddd
+// d /dd /dddd
+// d /dd / dddd
+// d / dd/dddd
+// d / dd/ dddd
+// d / dd /dddd
+// d / dd / dddd
+
+// d/dd/dd
+// d/dd/ dd
+// d/dd /dd
+// d/dd / dd
+// d/ dd/dd
+// d/ dd/ dd
+// d/ dd /dd
+// d/ dd / dd
+// d /dd/dd
+// d /dd/ dd
+// d /dd /dd
+// d /dd / dd
+// d / dd/dd
+// d / dd/ dd
+// d / dd /dd
+// d / dd / dd
+
+// d/dd
+// d/ dd
+// d /dd
+// d / dd
+
+/////////////////////////////////////////
+
+// dd/d/dddd
+// dd/d/ dddd
+// dd/d /dddd
+// dd/d / dddd
+// dd/ d/dddd
+// dd/ d/ dddd
+// dd/ d /dddd
+// dd/ d / dddd
+// dd /d/dddd
+// dd /d/ dddd
+// dd /d /dddd
+// dd /d / dddd
+// dd / d/dddd
+// dd / d/ dddd
+// dd / d /dddd
+// dd / d / dddd
+
+// dd/d/dd
+// dd/d/ dd
+// dd/d /dd
+// dd/d / dd
+// dd/ d/dd
+// dd/ d/ dd
+// dd/ d /dd
+// dd/ d / dd
+// dd /d/dd
+// dd /d/ dd
+// dd /d /dd
+// dd /d / dd
+// dd / d/dd
+// dd / d/ dd
+// dd / d /dd
+// dd / d / dd
+
+// dd/d
+// dd/ d
+// dd /d
+// dd / d
+
+/////////////////////////////////////////
+
+// dd/dd/dddd
+// dd/dd/ dddd
+// dd/dd /dddd
+// dd/dd / dddd
+// dd/ dd/dddd
+// dd/ dd/ dddd
+// dd/ dd /dddd
+// dd/ dd / dddd
+// dd /dd/dddd
+// dd /dd/ dddd
+// dd /dd /dddd
+// dd /dd / dddd
+// dd / dd/ dddd
+// dd / dd /dddd
+// dd / dd / dddd
+
+// dd/dd/dd
+// dd/dd/ dd
+// dd/dd /dd
+// dd/dd / dd
+// dd/ dd/dd
+// dd/ dd/ dd
+// dd/ dd /dd
+// dd/ dd / dd
+// dd /dd/dd
+// dd /dd/ dd
+// dd /dd /dd
+// dd /dd / dd
+// dd / dd/dd
+// dd / dd/ dd
+// dd / dd /dd
+// dd / dd / dd
+
+// dd/dd
+// dd/ dd
+// dd /dd
+// dd / dd
+
+
+%option noyywrap
+
+%{
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+
+  char *m[] = {"enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
+
+	int unir2Numeros(int n1, int n2){
+    int aux;
+    aux = n1 * 10 + n2;
+    return aux;
+  }
+
+  int unir4Numeros(int n1, int n2, int n3, int n4){
+    int aux;
+    aux = n1 * 1000 + n2 * 100 + n3 * 10 + n4;
+    return aux;
+  }
+
+  int evaluarDia(int n, int mes){
+    if((mes==1 || mes==3 || mes==5 || mes==7 || mes==8 || mes==10 || mes==12) && (n>=1 && n<=31))
+      return 1;
+    else if((mes==4 || mes==6 || mes==9 || mes==11) && (n>=1 && n<=30))
+      return 1;
+    else if(mes==2 && (n>=1 && n<=29))
+      return 1;
+    else return -1;
+  }
+
+  int evaluarMes(int n){
+    if(n>=1 && n<=12)
+      return 1;
+    else return -1;
+  }
+
+  void traducirMes(int n, char *m[]){
+    fputs(m[n-1], yyout);
+  }
+
+  int traducirAnio(int n, int largo){
+    int aux;
+    if(largo == 2){
+      if(n>16)
+        aux = 1900 + n;
+      else
+        aux = 2000 + n;
+      fputc(aux, yyout);
+    }
+    else if(largo == 4){
+      if(n>=1000)
+        fputc(n, yyout);
+    }
+  }
+
+%}
+OTROS_DELIM (" "|"\t"|"\n")
+DELIM ("/"|"-")
+ESPACIO_1 (" ")
+ESPACIO_2 (" "|"\t")
+NUMERO [0-9]
+
+FECHA_0 ^{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_1 {ESPACIO_2}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_2 ^{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_3 {ESPACIO_2}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_4 ^{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{OTROS_DELIM}
+FECHA_5 {ESPACIO_2}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{OTROS_DELIM}
+
+FECHA_6 ^{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_7 {ESPACIO_2}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_8 ^{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_9  {ESPACIO_2}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_10 ^{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_11  {ESPACIO_2}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+
+FECHA_12  ^{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_13  {ESPACIO_2}{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_14  ^{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_15  {ESPACIO_2}{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_16  ^{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{OTROS_DELIM}
+FECHA_17  {ESPACIO_2}{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{OTROS_DELIM}
+
+FECHA_18  ^{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_19  {ESPACIO_2}{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_20  ^{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_21  {ESPACIO_2}{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_22  ^{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+FECHA_23  {ESPACIO_2}{NUMERO}{NUMERO}{ESPACIO_1}?{DELIM}{ESPACIO_1}?{NUMERO}{NUMERO}{OTROS_DELIM}
+
+%%
+
+{FECHA_0}  {  if(strlen(yytext)==9){
+                // d/d/dddd
+                if(evaluarMes(yytext[2])==1 && evaluarDia(yytext[0],yytext[2])==1){
+                  int aux = unir4Numeros(yytext[4],yytext[5],yytext[6],yytext[7]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); traducirMes(yytext[2],m); fputc(yytext[3],yyout); traducirAnio(aux,4); fputc(yytext[8],yyout);
+                } }
+                else{
+                  int i = 0;
+                  for(i; i<9; i++)
+                    fputc(yytext[i],yyout);
+              } }
+
+              else if(strlen(yytext)==10){
+                // d/d/ dddd  &&  d/d /dddd
+                if(evaluarMes(yytext[2])==1 && evaluarDia(yytext[0],yytext[2])==1){
+                  int aux = unir4Numeros(yytext[5],yytext[6],yytext[7],yytext[8]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); traducirMes(yytext[2],m); fputc(yytext[3],yyout); fputc(yytext[4],yyout); traducirAnio(aux,4); fputc(yytext[9],yyout);
+                } }
+
+                // d/ d/dddd  &&  d /d/dddd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[0],yytext[3])==1){
+                  int aux = unir4Numeros(yytext[5],yytext[6],yytext[7],yytext[8]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); traducirAnio(aux,4); fputc(yytext[9],yyout);
+                } }
+                else{
+                  int i = 0;
+                  for(i; i<10; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==11){
+                // d/d / dddd
+                if(evaluarMes(yytext[2])==1 && evaluarDia(yytext[0],yytext[2])==1){
+                  int aux = unir4Numeros(yytext[6],yytext[7],yytext[8],yytext[9]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); traducirMes(yytext[2],m); fputc(yytext[3],yyout); fputc(yytext[4],yyout); fputc(yytext[5],yyout); traducirAnio(aux,4); fputc(yytext[10],yyout);
+                } }
+
+                // d/ d/ dddd  &&  d/ d /dddd  &&  d /d/ dddd  &&  d /d /dddd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[0],yytext[3])==1){
+                  int aux = unir4Numeros(yytext[6],yytext[7],yytext[8],yytext[9]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); fputc(yytext[5],yyout); traducirAnio(aux,4); fputc(yytext[10],yyout);
+                } }
+
+                // d / d/dddd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[0],yytext[4])==1){
+                  int aux = unir4Numeros(yytext[6],yytext[7],yytext[8],yytext[9]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); traducirAnio(aux,4); fputc(yytext[10],yyout);
+                } }
+                else{
+                  int i = 0;
+                  for(i; i<11; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==12){
+                // d/ d / dddd  &&  d /d / dddd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[0],yytext[3])==1){
+                  int aux = unir4Numeros(yytext[7],yytext[8],yytext[9],yytext[10]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); fputc(yytext[5],yyout); fputc(yytext[6],yyout); traducirAnio(aux,4); fputc(yytext[11],yyout);
+                } }
+
+                // d / d/ dddd  &&  d / d /dddd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[0],yytext[4])==1){
+                  int aux = unir4Numeros(yytext[7],yytext[8],yytext[9],yytext[10]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); fputc(yytext[6],yyout); traducirAnio(aux,4); fputc(yytext[11],yyout);
+                } }
+                else{
+                  int i = 0;
+                  for(i; i<12; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==13){
+                // d / d / dddd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[0],yytext[4])==1){
+                  int aux = unir4Numeros(yytext[8],yytext[9],yytext[10],yytext[11]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); fputc(yytext[6],yyout); fputc(yytext[7],yyout); traducirAnio(aux,4); fputc(yytext[12],yyout);
+                } }
+                else{
+                  int i = 0;
+                  for(i; i<13; i++)
+                    fputc(yytext[i],yyout);
+              } }
+            }
+
+{FECHA_1}  {  
+              if(strlen(yytext)==10){
+                // d/d/dddd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[1],yytext[3])==1){
+                  int aux = unir4Numeros(yytext[5],yytext[6],yytext[7],yytext[8]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); traducirAnio(aux,4); fputc(yytext[9],yyout);
+                } }
+                else{
+                  int i = 0;
+                  for(i; i<10; i++)
+                    fputc(yytext[i],yyout);
+              } }
+
+              else if(strlen(yytext)==11){
+                // d/d/ dddd  &&  d/d /dddd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[1],yytext[3])==1){
+                  int aux = unir4Numeros(yytext[6],yytext[7],yytext[8],yytext[9]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); fputc(yytext[5],yyout); traducirAnio(aux,4); fputc(yytext[10],yyout);
+                } }
+
+                // d/ d/dddd  &&  d /d/dddd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[1],yytext[4])==1){
+                  int aux = unir4Numeros(yytext[6],yytext[7],yytext[8],yytext[9]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); traducirAnio(aux,4); fputc(yytext[10],yyout);
+                } }
+                else{
+                  int i = 0;
+                  for(i; i<11; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==12){
+                // d/d / dddd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[1],yytext[3])==1){
+                  int aux = unir4Numeros(yytext[7],yytext[8],yytext[9],yytext[10]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); fputc(yytext[5],yyout); fputc(yytext[6],yyout); traducirAnio(aux,4); fputc(yytext[11],yyout);
+                } }
+
+                // d/ d/ dddd  &&  d/ d /dddd  &&  d /d/ dddd  &&  d /d /dddd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[1],yytext[4])==1){
+                  int aux = unir4Numeros(yytext[7],yytext[8],yytext[9],yytext[10]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); fputc(yytext[6],yyout); traducirAnio(aux,4); fputc(yytext[11],yyout);
+                } }
+
+                // d / d/dddd
+                if(evaluarMes(yytext[5])==1 && evaluarDia(yytext[1],yytext[5])==1){
+                  int aux = unir4Numeros(yytext[7],yytext[8],yytext[9],yytext[10]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); fputc(yytext[4],yyout); traducirMes(yytext[5],m); fputc(yytext[6],yyout); traducirAnio(aux,4); fputc(yytext[11],yyout);
+                } }
+                else{
+                  int i = 0;
+                  for(i; i<12; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==13){
+                // d/ d / dddd  &&  d /d / dddd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[1],yytext[4])==1){
+                  int aux = unir4Numeros(yytext[8],yytext[9],yytext[10],yytext[11]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); fputc(yytext[6],yyout); fputc(yytext[7],yyout); traducirAnio(aux,4); fputc(yytext[12],yyout);
+                } }
+
+                // d / d/ dddd  &&  d / d /dddd
+                if(evaluarMes(yytext[5])==1 && evaluarDia(yytext[1],yytext[5])==1){
+                  int aux = unir4Numeros(yytext[8],yytext[9],yytext[10],yytext[11]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); fputc(yytext[4],yyout); traducirMes(yytext[5],m); fputc(yytext[6],yyout); fputc(yytext[7],yyout); traducirAnio(aux,4); fputc(yytext[12],yyout);
+                } }
+                else{
+                  int i = 0;
+                  for(i; i<13; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==14){
+                // d / d / dddd
+                if(evaluarMes(yytext[5])==1 && evaluarDia(yytext[1],yytext[5])==1){
+                  int aux = unir4Numeros(yytext[9],yytext[10],yytext[11],yytext[12]);
+                  if(aux >= 1000){
+                    fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); fputc(yytext[4],yyout); traducirMes(yytext[5],m); fputc(yytext[6],yyout); fputc(yytext[7],yyout); fputc(yytext[8],yyout); traducirAnio(aux,4); fputc(yytext[13],yyout);
+                } }
+                else{
+                  int i = 0;
+                  for(i; i<14; i++)
+                    fputc(yytext[i],yyout);
+              } }
+            }
+
+{FECHA_2}  {  
+              if(strlen(yytext)==7){
+                // d/d/dd
+                if(evaluarMes(yytext[2])==1 && evaluarDia(yytext[0],yytext[2])==1){
+                  int aux = unir2Numeros(yytext[4],yytext[5]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); traducirMes(yytext[2],m); fputc(yytext[3],yyout); traducirAnio(aux,2); fputc(yytext[6],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<7; i++)
+                    fputc(yytext[i],yyout);
+              } }
+
+              else if(strlen(yytext)==8){
+                // d/d/ dd  &&  d/d /dd
+                if(evaluarMes(yytext[2])==1 && evaluarDia(yytext[0],yytext[2])==1){
+                  int aux = unir2Numeros(yytext[5],yytext[6]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); traducirMes(yytext[2],m); fputc(yytext[3],yyout); fputc(yytext[4],yyout); traducirAnio(aux,2); fputc(yytext[7],yyout);
+                }
+
+                // d/ d/dd  &&  d /d/dd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[0],yytext[3])==1){
+                  int aux = unir2Numeros(yytext[5],yytext[6]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); traducirAnio(aux,2); fputc(yytext[7],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<8; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==9){
+                // d/d / dd
+                if(evaluarMes(yytext[2])==1 && evaluarDia(yytext[0],yytext[2])==1){
+                  int aux = unir2Numeros(yytext[6],yytext[7]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); traducirMes(yytext[2],m); fputc(yytext[3],yyout); fputc(yytext[4],yyout); fputc(yytext[5],yyout); traducirAnio(aux,4); fputc(yytext[10],yyout);
+                }
+
+                // d/ d/ dd  &&  d/ d /dd  &&  d /d/ dd  &&  d /d /dd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[0],yytext[3])==1){
+                  int aux = unir2Numeros(yytext[6],yytext[7]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); fputc(yytext[5],yyout); traducirAnio(aux,4); fputc(yytext[10],yyout);
+                }
+
+                // d / d/dd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[0],yytext[4])==1){
+                  int aux = unir2Numeros(yytext[6],yytext[7]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); traducirAnio(aux,4); fputc(yytext[10],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<9; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==10){
+                // d/ d / dd  &&  d /d / dd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[0],yytext[3])==1){
+                  int aux = unir2Numeros(yytext[7],yytext[8]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); fputc(yytext[5],yyout); fputc(yytext[6],yyout); traducirAnio(aux,2); fputc(yytext[9],yyout);
+                }
+
+                // d / d/ dd  &&  d / d /dd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[0],yytext[4])==1){
+                  int aux = unir2Numeros(yytext[7],yytext[8]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); fputc(yytext[6],yyout); traducirAnio(aux,2); fputc(yytext[9],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<10; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==11){
+                // d / d / dd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[0],yytext[4])==1){
+                  int aux = unir2Numeros(yytext[8],yytext[9]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); fputc(yytext[6],yyout); fputc(yytext[7],yyout); traducirAnio(aux,2); fputc(yytext[10],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<11; i++)
+                    fputc(yytext[i],yyout);
+              } }
+            }
+
+{FECHA_3}  {  
+              if(strlen(yytext)==8){
+                // d/d/dd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[1],yytext[3])==1){
+                  int aux = unir2Numeros(yytext[5],yytext[6]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); traducirAnio(aux,2); fputc(yytext[7],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<8; i++)
+                    fputc(yytext[i],yyout);
+              } }
+
+              else if(strlen(yytext)==9){
+                // d/d/ dd  &&  d/d /dd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[1],yytext[3])==1){
+                  int aux = unir2Numeros(yytext[6],yytext[7]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); fputc(yytext[5],yyout); traducirAnio(aux,2); fputc(yytext[8],yyout);
+                }
+
+                // d/ d/dd  &&  d /d/dd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[1],yytext[4])==1){
+                  int aux = unir2Numeros(yytext[6],yytext[7]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); traducirAnio(aux,2); fputc(yytext[8],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<9; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==10){
+                // d/d / dd
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[1],yytext[3])==1){
+                  int aux = unir2Numeros(yytext[7],yytext[8]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout); fputc(yytext[5],yyout); fputc(yytext[6],yyout); traducirAnio(aux,2); fputc(yytext[9],yyout);
+                }
+
+                // d/ d/ dd  &&  d/ d /dd  &&  d /d/ dd  &&  d /d /dd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[1],yytext[4])==1){
+                  int aux = unir2Numeros(yytext[7],yytext[8]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); fputc(yytext[6],yyout); traducirAnio(aux,2); fputc(yytext[9],yyout);
+                }
+
+                // d / d/dd
+                if(evaluarMes(yytext[5])==1 && evaluarDia(yytext[1],yytext[5])==1){
+                  int aux = unir2Numeros(yytext[7],yytext[8]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); fputc(yytext[4],yyout); traducirMes(yytext[5],m); fputc(yytext[6],yyout); traducirAnio(aux,2); fputc(yytext[9],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<10; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==11){
+                // d/ d / dd  &&  d /d / dd
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[1],yytext[4])==1){
+                  int aux = unir2Numeros(yytext[8],yytext[9]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout); fputc(yytext[6],yyout); fputc(yytext[7],yyout); traducirAnio(aux,2); fputc(yytext[10],yyout);
+                }
+
+                // d / d/ dd  &&  d / d /dd
+                if(evaluarMes(yytext[5])==1 && evaluarDia(yytext[1],yytext[5])==1){
+                  int aux = unir2Numeros(yytext[8],yytext[9]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); fputc(yytext[4],yyout); traducirMes(yytext[5],m); fputc(yytext[6],yyout); fputc(yytext[7],yyout); traducirAnio(aux,2); fputc(yytext[10],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<11; i++)
+                    fputc(yytext[i],yyout);
+              } }
+              
+              else if(strlen(yytext)==12){
+                // d / d / dd
+                if(evaluarMes(yytext[5])==1 && evaluarDia(yytext[1],yytext[5])==1){
+                  int aux = unir2Numeros(yytext[9],yytext[10]);
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); fputc(yytext[4],yyout); traducirMes(yytext[5],m); fputc(yytext[6],yyout); fputc(yytext[7],yyout); fputc(yytext[8],yyout); traducirAnio(aux,2); fputc(yytext[11],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<12; i++)
+                    fputc(yytext[i],yyout);
+              } }
+            }
+
+{FECHA_4}  {  if(strlen(yytext)==4){
+                // d/d
+                if(evaluarMes(yytext[2])==1 && evaluarDia(yytext[0],yytext[2])==1){
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); traducirMes(yytext[2],m); fputc(yytext[3],yyout);
+                }                
+                else{
+                  int i = 0;
+                  for(i; i<4; i++)
+                    fputc(yytext[i],yyout);
+              } }
+    
+              if(strlen(yytext)==5){
+                // d/ d  &&  d /d
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[0],yytext[2])==1){
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<5; i++)
+                    fputc(yytext[i],yyout);
+              } }
+
+              
+              if(strlen(yytext)==6){
+                // d / d
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[0],yytext[4])==1){
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<6; i++)
+                    fputc(yytext[i],yyout);
+              } }
+            }
+
+{FECHA_5}  {  if(strlen(yytext)==5){
+                // d/d
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[1],yytext[3])==1){
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); traducirMes(yytext[3],m); fputc(yytext[4],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<5; i++)
+                    fputc(yytext[i],yyout);
+              } }
+    
+              if(strlen(yytext)==6){
+                // d/ d  &&  d /d
+                if(evaluarMes(yytext[3])==1 && evaluarDia(yytext[0],yytext[2])==1){
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); traducirMes(yytext[4],m); fputc(yytext[5],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<6; i++)
+                    fputc(yytext[i],yyout);
+              } }
+
+              
+              if(strlen(yytext)==7){
+                // d / d
+                if(evaluarMes(yytext[4])==1 && evaluarDia(yytext[0],yytext[4])==1){
+                  fputc(yytext[0],yyout); fputc(yytext[1],yyout); fputc(yytext[2],yyout); fputc(yytext[3],yyout); fputc(yytext[4],yyout); traducirMes(yytext[5],m); fputc(yytext[6],yyout);
+                }
+                else{
+                  int i = 0;
+                  for(i; i<7; i++)
+                    fputc(yytext[i],yyout);
+              } }
+            }
+
+%%
+
+int main(int argc, char *argv[]){
+    
+    if(argc == 1){
+		printf("Error: Faltan par\240metros en la l\241nea de comandos.\n");
+		printf("Uso: fechas.exe archivo_entrada archivo_salida");
+		return 0;
+	}
+	else if(argc == 2){
+		printf("Error: Falta par\240metro en la l\241nea de comandos.\n");
+		printf("Uso: fechas.exe archivo_entrada archivo_salida");
+		return 0;
+	}
+	else if(argc > 3){
+		printf("Error: Demasiados par\240metros en la l\241nea de comandos.\n");
+		printf("Uso: fechas.exe archivo_entrada archivo_salida");
+		return 0;
+	}
+
+    else{
+  		yyin = fopen(argv[1],"r");
+  		if(yyin == NULL)
+  			printf("Error: El archivo de entrada no existe.");
+  		
+  		else{
+        yyout = fopen(argv[2],"w");
+        yylex();
+        fclose(yyin);
+  			fclose(yyout);
+  		}
+    }	
+	return 0;
+}
